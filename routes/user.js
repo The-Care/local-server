@@ -9,5 +9,6 @@ router.get('/', main.set_user);
 
 router.post('/', main.set_user);
 router.post('/sign-in', main.sign_in);
+router.post('/check-config', main.check_config);
 
 module.exports = router;

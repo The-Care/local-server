@@ -2,6 +2,28 @@
 
 const model = require('../models/mongo');
 
+async function get_outlet(request, response) {
+  try {
+    const outlet = await model.outlet.findOne({ id: +request.query.id });
+
+    console.log('====================================');
+    console.log(outlet);
+    console.log('====================================');
+
+    return response.json({
+      status : outlet !== null,
+      message: "set_outlet",
+      result : outlet !== null ? outlet : null,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_outlet", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
 async function set_outlet(request, response) {
   try {
     console.log("set_outlet");
@@ -9,7 +31,7 @@ async function set_outlet(request, response) {
     console.log("set_outlet");
 
     await model.outlet
-      .update({ outlet_id: request.body.id }, { detail: request.body }, { upsert: true });
+      .update({ id: request.body.id }, { ...request.body }, { upsert: true });
 
     return response.json({
       status: true,
@@ -25,4 +47,4 @@ async function set_outlet(request, response) {
   }
 }
 
-module.exports = { set_outlet };
+module.exports = { get_outlet, set_outlet };

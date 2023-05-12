@@ -3,6 +3,46 @@
 const model = require('../models/mongo');
 const jwt   = require("jsonwebtoken");
 
+async function check_config(request, response) {
+  try {
+    const _store      = await model.store.findOne({ id: request.body.store_id });
+    const _outlet     = await model.outlet.findOne({ id: request.body.outlet_id });
+    const _payment    = await model.payment.findOne({ outlet_id: request.body.outlet_id });
+    const _sales_type = await model.sales_type.findOne({ outlet_id: request.body.outlet_id });
+    const _config     = await model.config.findOne({ outlet_id: request.body.outlet_id });
+
+    console.log("_store      ", _store);
+    console.log("_outlet     ", _outlet);
+    console.log("_payment    ", _payment);
+    console.log("_sales_type ", _sales_type);
+    console.log("_config     ", _config);
+
+    if (!_store || !_outlet || !_payment || !_sales_type || !_config) {
+      return response.json({
+        status  : false,
+        message : "Account is not synchronized!",
+        result  : null,
+      });
+    }
+
+    return response.json({
+      status  : true,
+      message : "Account synchronized!",
+      result  : true,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_user", error);
+    console.log('====================================');
+
+    return response.status(200).json({
+      status  : false,
+      message : error,
+      result  : null,
+    });
+  }
+}
+
 async function sign_in(request, response) {
   try {
     if (request.query.src === "user-id") {
@@ -25,7 +65,7 @@ async function sign_in(request, response) {
       }
 
       const _store      = await model.store.findOne({ id: _account.store_id });
-      const _outlet     = await model.outlet.findOne({ outlet_id: _account.outlet_id });
+      const _outlet     = await model.outlet.findOne({ id: _account.outlet_id });
       const _payment    = await model.payment.findOne({ outlet_id: _account.outlet_id });
       const _sales_type = await model.sales_type.findOne({ outlet_id: _account.outlet_id });
       const _config     = await model.config.findOne({ outlet_id: _account.outlet_id });
@@ -78,7 +118,7 @@ async function sign_in(request, response) {
       }
 
       const _store      = await model.store.findOne({ id: _account.store_id });
-      const _outlet     = await model.outlet.findOne({ outlet_id: _account.outlet_id });
+      const _outlet     = await model.outlet.findOne({ id: _account.outlet_id });
       const _payment    = await model.outlet_payment.findOne({ outlet_id: _account.outlet_id });
       const _sales_type = await model.outlet_sales_type.findOne({ outlet_id: _account.outlet_id });
       const _config     = await model.outlet_config.findOne({ outlet_id: _account.outlet_id });
@@ -182,4 +222,4 @@ async function set_user(request, response) {
   }
 }
 
-module.exports = { sign_in, set_user };
+module.exports = { check_config, sign_in, set_user };

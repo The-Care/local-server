@@ -2,6 +2,29 @@
 
 const model = require('../models/mongo');
 
+async function get_payment(request, response) {
+  try {
+    const payment = await model.payment
+      .findOne({ outlet_id: request.query.outlet_id });
+
+    console.log('====================================');
+    console.log(payment);
+    console.log('====================================');
+
+    return response.json({
+      status : payment !== null,
+      message: "set_payment",
+      result : payment !== null ? payment.lists : null,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_payment", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
 async function set_payment(request, response) {
   try {
     console.log("set_payment");
@@ -25,4 +48,4 @@ async function set_payment(request, response) {
   }
 }
 
-module.exports = { set_payment };
+module.exports = { get_payment, set_payment };

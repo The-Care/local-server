@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const URLSchema = new Schema({
-  outlet_id: { type: Number },
   anyobject: Schema.Types.Mixed,
 }, { timestamps: true, strict: false });
 

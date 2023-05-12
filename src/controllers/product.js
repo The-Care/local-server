@@ -2,20 +2,40 @@
 
 const model = require('../models/mongo');
 
-async function set_list_product_promotion(request, response) {
+async function get_list_product(request, response) {
   try {
-    console.log("set_list_product");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_list_product");
-    await model.product_promotion.deleteMany();
+    const product = await model.product.find();
 
-    const created = await model.product_promotion
-      .create(request.body);
+    console.log('====================================');
+    console.log(product);
+    console.log('====================================');
 
     return response.json({
-      status  : true,
-      message : "set_list_product",
-      result  : created,
+      status : product.length > 0,
+      message: "set_payment",
+      result : product,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at get_list_product", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
+async function get_list_product_category(request, response) {
+  try {
+    const product_category = await model.product_category.find();
+
+    console.log('====================================');
+    console.log(product_category);
+    console.log('====================================');
+
+    return response.json({
+      status : product_category.length > 0,
+      message: "set_payment",
+      result : product_category,
     });
   } catch (error) {
     console.log('====================================');
@@ -50,11 +70,57 @@ async function set_list_product_category(request, response) {
   }
 }
 
-async function set_list_product(request, response) {
+async function set_list_product_promotion(request, response) {
   try {
     console.log("set_list_product");
     console.log(JSON.stringify(request.body, 0, 2));
     console.log("set_list_product");
+    await model.product_promotion.deleteMany();
+
+    const created = await model.product_promotion
+      .create(request.body);
+
+    return response.json({
+      status  : true,
+      message : "set_list_product",
+      result  : created,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_list_product", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
+async function get_list_product_promotion(request, response) {
+  try {
+    const product_promotion = await model.product_promotion.find();
+
+    console.log('====================================');
+    console.log(product_promotion);
+    console.log('====================================');
+
+    return response.json({
+      status : product_promotion.length > 0,
+      message: "set_payment",
+      result : product_promotion,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_list_product", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
+async function set_list_product(request, response) {
+  try {
+    console.log("set_list_product !");
+    console.log(JSON.stringify(request.body, 0, 2));
+    console.log("set_list_product !");
     await model.product.deleteMany();
 
     const created = await model.product
@@ -75,6 +141,9 @@ async function set_list_product(request, response) {
 }
 
 module.exports = {
+  get_list_product,
+  get_list_product_category,
+  get_list_product_promotion,
   set_list_product,
   set_list_product_category,
   set_list_product_promotion,

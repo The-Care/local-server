@@ -5,7 +5,7 @@ const router = express.Router();
 const main = require("../src/controllers/store");
 
 /* GET store listing. */
-router.get('/', main.set_store);
+router.get('/', main.get_store);
 
 router.post('/', main.set_store);
 

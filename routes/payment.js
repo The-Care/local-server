@@ -5,7 +5,7 @@ const router = express.Router();
 const main = require("../src/controllers/payment");
 
 /* GET payments listing. */
-router.get('/', main.set_payment);
+router.get('/', main.get_payment);
 
 router.post('/', main.set_payment);
 

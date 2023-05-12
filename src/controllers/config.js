@@ -2,6 +2,29 @@
 
 const model = require('../models/mongo');
 
+async function get_config(request, response) {
+  try {
+    const config = await model.config
+      .findOne({ outlet_id: +request.query.outlet_id });
+
+    console.log('====================================');
+    console.log(config);
+    console.log('====================================');
+
+    return response.json({
+      status : config !== null,
+      message: "set_config",
+      result : config !== null ? config : null,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_config", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
 async function set_config(request, response) {
   try {
     console.log("set_config");
@@ -25,4 +48,4 @@ async function set_config(request, response) {
   }
 }
 
-module.exports = { set_config };
+module.exports = { get_config, set_config };

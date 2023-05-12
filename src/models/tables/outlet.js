@@ -4,9 +4,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const URLSchema = new Schema({
-  outlet_id: { type: Number },
-  detail   : { type: Object },
-}, { timestamps: true });
+  anyobject: Schema.Types.Mixed,
+}, { timestamps: true, strict: false });
 
 URLSchema.pre('save', function (next) {
   // handler here...
