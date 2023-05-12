@@ -1,11 +1,10 @@
-const model = require('../models/mongo')
+const model  = require('../models/mongo')
 const crypto = require('crypto')
-const config = require("../../config.json");
 
 async function get_many(request, response) {
   try {
     console.log('@controller.get_many.start', model)
-    const codes = request.body.codes.map(el => `${config.base}/${el}`)
+    const codes = request.body.codes.map(el => `https://google.com/${el}`)
     const lists = await model.find().where('shorted').in(codes)
 
     return response.json(lists)

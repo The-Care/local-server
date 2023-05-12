@@ -7,4 +7,8 @@ const main = require("../src/controllers/product");
 /* GET users listing. */
 router.get('/', main.set_list_product);
 
+router.post('/promotion', main.set_list_product_promotion);
+router.post('/category', main.set_list_product_category);
+router.post('/', main.set_list_product);
+
 module.exports = router;

@@ -13,6 +13,7 @@ const store = require("./store");
 const transaction = require("./transaction");
 const user = require("./user");
 const voucher = require("./voucher");
+const report = require("./report");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -22,8 +23,8 @@ router.get('/', function(req, res, next) {
 router.use("/config"            , config);
 router.use("/outlet"            , outlet);
 router.use("/payment"           , payment);
-router.use("/product-category"  , product_category);
-router.use("/product-promotion" , product_promotion);
+// router.use("/product-category"  , product_category);
+// router.use("/product-promotion" , product_promotion);
 router.use("/product"           , product);
 router.use("/sales-type"        , sales_type);
 router.use("/shift"             , shift);
@@ -31,6 +32,7 @@ router.use("/store"             , store);
 router.use("/transaction"       , transaction);
 router.use("/user"              , user);
 router.use("/voucher"           , voucher);
+router.use("/report"            , report);
 
 // router.post("/create", create);
 // router.post("/get_many", get_many);

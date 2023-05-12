@@ -1,10 +1,15 @@
 "use strict"
 
+const model = require('../models/mongo');
+
 async function set_store(request, response) {
   try {
     console.log("set_store");
     console.log(JSON.stringify(request.body, 0, 2));
     console.log("set_store");
+
+    await model.store
+      .update({ id: request.body.id }, { ...request.body }, { upsert: true });
 
     return response.json({
       status  : true,

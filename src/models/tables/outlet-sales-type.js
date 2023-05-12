@@ -4,14 +4,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const URLSchema = new Schema({
-  identifier  : { type: Number },
-  transaction : { type: Object },
-  fetch       : { type: Boolean },
-  expiredAt   : { type: Date },
-  grand_total : { type: Number },
-  payments    : { type: Array },
-  order_number: { type: String },
-  access      : { type: String },
+  outlet_id : { type: Number },
+  lists     : { type: Array },
 }, { timestamps: true });
 
 URLSchema.pre('save', function (next) {
@@ -26,6 +20,6 @@ URLSchema.pre('findOneAndUpdate', function (next) {
   next();
 });
 
-const models = mongoose.model('transaction', URLSchema);
+const models = mongoose.model('outlet_sales_type', URLSchema);
 
 module.exports = models;

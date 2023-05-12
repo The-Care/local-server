@@ -1,5 +1,14 @@
 "use strict"
 
 module.exports = {
-  transaction: require("./tables/transaction"),
+  user              : require("./tables/user"),
+  store             : require("./tables/store"),
+  outlet            : require("./tables/outlet"),
+  payment           : require("./tables/outlet-payment"),
+  sales_type        : require("./tables/outlet-sales-type"),
+  config            : require("./tables/outlet-config"),
+  product           : require("./tables/product"),
+  product_category  : require("./tables/product-category"),
+  product_promotion : require("./tables/product-promotion"),
+  transaction       : require("./tables/transaction"),
 };

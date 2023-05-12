@@ -2,11 +2,9 @@
 
 const express = require('express');
 const router = express.Router();
-const main = require("../src/controllers/sales-type");
+const main = require("../src/controllers/setup");
 
-/* GET set_outlet listing. */
+/* GET users listing. */
 router.get('/', main.set_sales_type);
-
-router.post('/', main.set_sales_type);
 
 module.exports = router;

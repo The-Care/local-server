@@ -4,14 +4,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const URLSchema = new Schema({
-  identifier  : { type: Number },
-  transaction : { type: Object },
-  fetch       : { type: Boolean },
-  expiredAt   : { type: Date },
-  grand_total : { type: Number },
-  payments    : { type: Array },
-  order_number: { type: String },
-  access      : { type: String },
+  id       : { type: Number },
+  name     : { type: String },
+  code     : { type: String },
+  color    : { type: String },
+  image    : { type: String },
+  priority : { type: Number },
+  product  : { type: Number },
 }, { timestamps: true });
 
 URLSchema.pre('save', function (next) {
@@ -26,6 +25,6 @@ URLSchema.pre('findOneAndUpdate', function (next) {
   next();
 });
 
-const models = mongoose.model('transaction', URLSchema);
+const models = mongoose.model('product_category', URLSchema);
 
 module.exports = models;
