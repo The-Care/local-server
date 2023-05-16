@@ -14,7 +14,8 @@ const URLSchema = new Schema({
   sales_type   : { type: Array },
   sub_category : { type: Array },
   variants     : { type: Array },
-}, { timestamps: true });
+  anyobject    : Schema.Types.Mixed,
+}, { timestamps: true, strict: false });
 
 URLSchema.pre('save', function (next) {
   // handler here...
