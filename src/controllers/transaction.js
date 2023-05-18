@@ -71,8 +71,56 @@ async function create_transaction(request, response) {
   }
 }
 
+async function get_offline_data(request, response) {
+  try {
+    const offline_data = await model.transaction
+      .find({ $or: [{ "transaction.connection": "offline" }, { "transaction.fetch": false }] });
+
+    console.log('====================================');
+    console.log("get_offline_data");
+    console.log('====================================');
+
+    return response.json({
+      status  : true,
+      message : "get_offline_data",
+      result  : offline_data,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at get_offline_data", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
+async function update_transaction(request, response) {
+  try {
+    console.log('====================================');
+    console.log("update_transaction", request.body);
+    console.log('====================================');
+    await model.transaction.updateMany(
+      { $or: [
+        { _id : { $in: request.body.ids } },
+        { "transaction.invoice_id" : { $in: request.body.invoices } }
+      ]},
+      { $set: { "transaction.connection": "online", "transaction.fetch": true, "fetch": true } },
+    );
+
+    return response.send("update_transaction:OK!");
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at update_transaction", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
 module.exports = {
   create_transaction,
   get_order_number,
   get_transaction_history,
+  get_offline_data,
+  update_transaction,
 };
