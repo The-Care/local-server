@@ -4,6 +4,7 @@ module.exports = {
   user              : require("./tables/user"),
   store             : require("./tables/store"),
   outlet            : require("./tables/outlet"),
+  banner            : require("./tables/banner"),
   payment           : require("./tables/outlet-payment"),
   sales_type        : require("./tables/outlet-sales-type"),
   config            : require("./tables/outlet-config"),
