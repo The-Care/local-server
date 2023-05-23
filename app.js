@@ -3,6 +3,7 @@
 const createError  = require('http-errors');
 const express      = require('express');
 const path         = require('path');
+const cors         = require('cors');
 const cookieParser = require('cookie-parser');
 const logger       = require('morgan');
 const mongoose     = require('mongoose');
@@ -17,6 +18,7 @@ mongoose.connect(
 );
 
 // view engine setup
+app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
