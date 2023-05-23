@@ -41,6 +41,25 @@ async function get_order_number(request, response) {
   }
 }
 
+async function match_voided_transaction(request, response) {
+  try {
+    await model.transaction.updateMany(
+      {
+        $in: { "transaction.invoice_id": { $in: request.body.invoices } }
+      },
+      { $set: { status: "void" } }
+    );
+
+    return response.send("OK");
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at match_voided_transaction", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
 async function create_transaction(request, response) {
   try {
     const transaction = { ...request.body, created_at: new Date() };
@@ -52,7 +71,8 @@ async function create_transaction(request, response) {
         grand_total : request.body.grand_total,
         payments    : request.body.payments,
         order_number: request.body.order_number,
-        access      : request.headers.token
+        access      : request.headers.token,
+        status      : "received",
       });
 
     console.log("created_transaction", created_transaction);
@@ -123,4 +143,5 @@ module.exports = {
   get_transaction_history,
   get_offline_data,
   update_transaction,
+  match_voided_transaction,
 };
