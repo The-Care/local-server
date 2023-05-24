@@ -43,11 +43,26 @@ async function get_order_number(request, response) {
 
 async function match_voided_transaction(request, response) {
   try {
+    console.log('====================================');
+    console.log(JSON.stringify(request.body, 0, 2));
+    console.log('====================================');
+    const invoide_ids = request.body.map(({ invoice_id }) => invoice_id);
+  
     await model.transaction.updateMany(
       {
-        $in: { "transaction.invoice_id": { $in: request.body.invoices } }
+        "transaction.invoice_id": {
+          $in: invoide_ids,
+        }
       },
       { $set: { status: "void" } }
+    );
+    await model.transaction.updateMany(
+      {
+        "transaction.invoice_id": {
+          $nin: invoide_ids,
+        }
+      },
+      { $set: { status: "received" } }
     );
 
     return response.send("OK");
@@ -63,12 +78,18 @@ async function match_voided_transaction(request, response) {
 async function create_transaction(request, response) {
   try {
     const transaction = { ...request.body, created_at: new Date() };
+
+    console.log('start create transaction ====================================');
+    console.log(JSON.stringify(transaction, 0, 2));
+    console.log('start create transaction ====================================');
+
     const created_transaction = await model.transaction
       .create({
         transaction,
         identifier  : request.body.identifier,
         fetch       : request.body.fetch,
         grand_total : request.body.grand_total,
+        invoice_id  : request.body.invoice_id,
         payments    : request.body.payments,
         order_number: request.body.order_number,
         access      : request.headers.token,

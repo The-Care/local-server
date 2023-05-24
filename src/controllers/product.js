@@ -6,10 +6,6 @@ async function get_list_product(request, response) {
   try {
     const product = await model.product.find();
 
-    console.log('====================================');
-    console.log(product);
-    console.log('====================================');
-
     return response.json({
       status : product.length > 0,
       message: "set_payment",
@@ -28,10 +24,6 @@ async function get_list_product_category(request, response) {
   try {
     const product_category = await model.product_category.find();
 
-    console.log('====================================');
-    console.log(product_category);
-    console.log('====================================');
-
     return response.json({
       status : product_category.length > 0,
       message: "set_payment",
@@ -48,9 +40,6 @@ async function get_list_product_category(request, response) {
 
 async function set_list_product_category(request, response) {
   try {
-    console.log("set_list_product");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_list_product");
     await model.product_category.deleteMany();
 
     const created = await model.product_category
@@ -72,9 +61,6 @@ async function set_list_product_category(request, response) {
 
 async function set_list_product_promotion(request, response) {
   try {
-    console.log("set_list_product");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_list_product");
     await model.product_promotion.deleteMany();
 
     const created = await model.product_promotion
@@ -98,10 +84,6 @@ async function get_list_product_promotion(request, response) {
   try {
     const product_promotion = await model.product_promotion.find();
 
-    console.log('====================================');
-    console.log(product_promotion);
-    console.log('====================================');
-
     return response.json({
       status : product_promotion.length > 0,
       message: "set_payment",
@@ -118,9 +100,6 @@ async function get_list_product_promotion(request, response) {
 
 async function set_list_product(request, response) {
   try {
-    console.log("set_list_product !");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_list_product !");
     await model.product.deleteMany();
 
     const created = await model.product

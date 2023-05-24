@@ -2,10 +2,6 @@
 
 async function set_sales_type(request, response) {
   try {
-    console.log("set_sales_type");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_sales_type");
-
     return response.json({
       status  : true,
       message : "set_sales_type",

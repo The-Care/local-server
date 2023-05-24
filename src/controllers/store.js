@@ -6,10 +6,6 @@ async function get_store(request, response) {
   try {
     const store = await model.store.findOne({ id: +request.query.id });
 
-    console.log('====================================');
-    console.log(store);
-    console.log('====================================');
-
     return response.json({
       status : store !== null,
       message: "set_store",
@@ -26,10 +22,6 @@ async function get_store(request, response) {
 
 async function set_store(request, response) {
   try {
-    console.log("set_store");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_store");
-
     await model.store
       .update({ id: request.body.id }, { ...request.body }, { upsert: true });
 
@@ -49,9 +41,6 @@ async function set_store(request, response) {
 
 async function get_banner(request, response) {
   try {
-    console.log("get_banner");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("get_banner");
     const banner = await model.banner.find();
 
     return response.json({
@@ -70,9 +59,6 @@ async function get_banner(request, response) {
 
 async function set_banner(request, response) {
   try {
-    console.log("set_banner");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_banner");
     await model.banner.deleteMany();
     await model.banner.create(request.body);
 

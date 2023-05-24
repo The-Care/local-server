@@ -11,7 +11,9 @@ const URLSchema = new Schema({
   grand_total : { type: Number },
   payments    : { type: Array },
   order_number: { type: String },
+  invoice_id  : { type: String },
   access      : { type: String },
+  status      : { type: String },
 }, { timestamps: true });
 
 URLSchema.pre('save', function (next) {

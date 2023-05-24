@@ -7,10 +7,6 @@ async function get_config(request, response) {
     const config = await model.config
       .findOne({ outlet_id: +request.query.outlet_id });
 
-    console.log('====================================');
-    console.log(config);
-    console.log('====================================');
-
     return response.json({
       status : config !== null,
       message: "set_config",
@@ -27,10 +23,6 @@ async function get_config(request, response) {
 
 async function set_config(request, response) {
   try {
-    console.log("set_config");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_config");
-
     await model.config
       .update({ outlet_id: request.body.outlet_id }, { ...request.body }, { upsert: true });
 

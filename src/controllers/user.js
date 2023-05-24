@@ -11,12 +11,6 @@ async function check_config(request, response) {
     const _sales_type = await model.sales_type.findOne({ outlet_id: request.body.outlet_id });
     const _config     = await model.config.findOne({ outlet_id: request.body.outlet_id });
 
-    console.log("_store      ", _store);
-    console.log("_outlet     ", _outlet);
-    console.log("_payment    ", _payment);
-    console.log("_sales_type ", _sales_type);
-    console.log("_config     ", _config);
-
     if (!_store || !_outlet || !_payment || !_sales_type || !_config) {
       return response.json({
         status  : false,
@@ -46,9 +40,6 @@ async function check_config(request, response) {
 async function sign_in(request, response) {
   try {
     if (request.query.src === "user-id") {
-      console.log('====================================');
-      console.log("user-id");
-      console.log('====================================');
       const _account = await model.user
         .findOne({
           user_id : request.body.pos_id,
@@ -69,12 +60,6 @@ async function sign_in(request, response) {
       const _payment    = await model.payment.findOne({ outlet_id: _account.outlet_id });
       const _sales_type = await model.sales_type.findOne({ outlet_id: _account.outlet_id });
       const _config     = await model.config.findOne({ outlet_id: _account.outlet_id });
-
-      console.log("_store      ", _store);
-      console.log("_outlet     ", _outlet);
-      console.log("_payment    ", _payment);
-      console.log("_sales_type ", _sales_type);
-      console.log("_config     ", _config);
 
       if (!_store || !_outlet || !_payment || !_sales_type || !_config) {
         return response.json({
@@ -104,10 +89,6 @@ async function sign_in(request, response) {
           email   : request.body.email,
           machine : request.headers.machine,
         });
-
-      console.log('====================================');
-      console.log(_account);
-      console.log('====================================');
 
       if (!_account) {
         return response.status(200).json({
@@ -202,11 +183,6 @@ async function set_user(request, response) {
     } else {
       await model.user.create(request.body);
     }
-
-    console.log('====================================');
-    console.log("signed in at ", new Date().toLocaleString());
-    console.log(JSON.stringify(find_user, 0, 2));
-    console.log('====================================');
 
     return response.json({
       status  : true,

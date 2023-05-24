@@ -7,10 +7,6 @@ async function get_payment(request, response) {
     const payment = await model.payment
       .findOne({ outlet_id: request.query.outlet_id });
 
-    console.log('====================================');
-    console.log(payment);
-    console.log('====================================');
-
     return response.json({
       status : payment !== null,
       message: "set_payment",
@@ -27,10 +23,6 @@ async function get_payment(request, response) {
 
 async function set_payment(request, response) {
   try {
-    console.log("set_payment");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_payment");
-
     await model.payment
       .update({ outlet_id: request.body.outlet_id }, { lists: request.body.lists }, { upsert: true });
 

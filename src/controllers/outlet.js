@@ -6,10 +6,6 @@ async function get_outlet(request, response) {
   try {
     const outlet = await model.outlet.findOne({ id: +request.query.id });
 
-    console.log('====================================');
-    console.log(outlet);
-    console.log('====================================');
-
     return response.json({
       status : outlet !== null,
       message: "set_outlet",
@@ -26,10 +22,6 @@ async function get_outlet(request, response) {
 
 async function set_outlet(request, response) {
   try {
-    console.log("set_outlet");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_outlet");
-
     await model.outlet
       .update({ id: request.body.id }, { ...request.body }, { upsert: true });
 

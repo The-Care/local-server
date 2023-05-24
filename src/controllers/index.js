@@ -3,7 +3,6 @@ const crypto = require('crypto')
 
 async function get_many(request, response) {
   try {
-    console.log('@controller.get_many.start', model)
     const codes = request.body.codes.map(el => `https://google.com/${el}`)
     const lists = await model.find().where('shorted').in(codes)
 
@@ -17,7 +16,6 @@ async function get_many(request, response) {
 
 async function create(request, response) {
   try {
-    console.log('@create.start')
     const { base } = request.body
     const list     = await model.find({ full: base }).exec()
     let key        = crypto.scryptSync(base, 'balesin-url', 4).toString('hex')

@@ -7,10 +7,6 @@ async function get_sales_type(request, response) {
     const sales_type = await model.sales_type
       .findOne({ outlet_id: request.query.outlet_id });
 
-    console.log('====================================');
-    console.log(sales_type);
-    console.log('====================================');
-
     return response.json({
       status : sales_type !== null,
       message: "set_sales_type",
@@ -27,10 +23,6 @@ async function get_sales_type(request, response) {
 
 async function set_sales_type(request, response) {
   try {
-    console.log("set_sales_type");
-    console.log(JSON.stringify(request.body, 0, 2));
-    console.log("set_sales_type");
-
     await model.sales_type
       .update({ outlet_id: request.body.outlet_id }, { lists: request.body.lists }, { upsert: true });
 
