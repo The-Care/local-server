@@ -1,6 +1,36 @@
 "use strict"
 
 const model = require('../models/mongo');
+const axios = require("axios");
+const fs = require("fs");
+
+async function generate_report(request, response) {
+  try {
+    console.log(request.body);
+
+    await axios
+      .get(request.body.url_file, { responseType: 'arraybuffer' })
+      .then(response => {
+        fs.writeFile(
+          request.body.path,
+          new Buffer(response.data, 'base64').toString('binary'),
+          "binary",
+          (err) => {
+            console.log('====================================');
+            console.log(err);
+            console.log('====================================');
+          });
+      });
+
+    return response.send("OK!");
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_store", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
 
 async function get_store(request, response) {
   try {
@@ -81,4 +111,5 @@ module.exports = {
   set_store,
   get_banner,
   set_banner,
+  generate_report,
 };

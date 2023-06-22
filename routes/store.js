@@ -10,5 +10,6 @@ router.get('/banner', main.get_banner);
 
 router.post('/', main.set_store);
 router.post('/banner', main.set_banner);
+router.post("/generate-report", main.generate_report);
 
 module.exports = router;
