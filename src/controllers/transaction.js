@@ -1,6 +1,7 @@
 "use strict"
 
 const model = require('../models/mongo');
+const axios = require("axios");
 
 async function get_transaction_history(request, response) {
   try {
@@ -78,12 +79,7 @@ async function match_voided_transaction(request, response) {
 async function create_transaction(request, response) {
   try {
     const transaction = { ...request.body, created_at: new Date() };
-
-    console.log('start create transaction ====================================');
-    console.log(JSON.stringify(transaction, 0, 2));
-    console.log('start create transaction ====================================');
-
-    const created_transaction = await model.transaction
+    await model.transaction
       .create({
         transaction,
         identifier  : request.body.identifier,
@@ -95,8 +91,14 @@ async function create_transaction(request, response) {
         access      : request.headers.token,
         status      : "received",
       });
-
-    console.log("created_transaction", created_transaction);
+    
+    create_to_server(
+      {
+        token: request.headers.token,
+        authorization: request.headers.authorization,
+      },
+      transaction
+    );
 
     return response.json({
       status  : true,
@@ -105,10 +107,35 @@ async function create_transaction(request, response) {
     });
   } catch (error) {
     console.log('====================================');
+    console.log("error at create_transaction", JSON.stringify(request.body, 0, 2));
     console.log("error at create_transaction", error);
     console.log('====================================');
 
     return response.status(400).send(error);
+  }
+}
+
+async function create_to_server(headers, data) {
+  try {
+    const request = await axios({
+      url: "http://0.0.0.0:9001/transaction",
+      // url: "https://pos-api.posinfinite.com/transaction",
+      method: "post",
+      headers,
+      data,
+    });
+
+    if (request.status === 200 && request.data.status) {
+      await model.transaction.updateMany(
+        { $or: [
+          { "transaction.invoice_id" : { $in: [data.invoice_id] } }
+        ]},
+        { $set: { "transaction.connection": "online", "transaction.fetch": true, "fetch": true } },
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }
 
