@@ -91,14 +91,6 @@ async function create_transaction(request, response) {
         access      : request.headers.token,
         status      : "received",
       });
-    
-    create_to_server(
-      {
-        token: request.headers.token,
-        authorization: request.headers.authorization,
-      },
-      transaction
-    );
 
     return response.json({
       status  : true,
@@ -112,30 +104,6 @@ async function create_transaction(request, response) {
     console.log('====================================');
 
     return response.status(400).send(error);
-  }
-}
-
-async function create_to_server(headers, data) {
-  try {
-    const request = await axios({
-      url: "http://0.0.0.0:9001/transaction",
-      // url: "https://pos-api.posinfinite.com/transaction",
-      method: "post",
-      headers,
-      data,
-    });
-
-    if (request.status === 200 && request.data.status) {
-      await model.transaction.updateMany(
-        { $or: [
-          { "transaction.invoice_id" : { $in: [data.invoice_id] } }
-        ]},
-        { $set: { "transaction.connection": "online", "transaction.fetch": true, "fetch": true } },
-      );
-    }
-  } catch (error) {
-    console.log(error);
-    return null;
   }
 }
 
