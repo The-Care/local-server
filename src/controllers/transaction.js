@@ -91,14 +91,6 @@ async function create_transaction(request, response) {
         access      : request.headers.token,
         status      : "received",
       });
-    
-    create_to_server(
-      {
-        token: request.headers.token,
-        authorization: request.headers.authorization,
-      },
-      transaction
-    );
 
     return response.json({
       status  : true,
