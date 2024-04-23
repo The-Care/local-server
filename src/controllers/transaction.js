@@ -153,6 +153,43 @@ async function update_transaction(request, response) {
   }
 }
 
+async function count_transaction(request, response) {
+  try {
+    let start_date = new Date(request.body.date);
+    let end_date   = new Date(request.body.date);
+    
+    start_date.setDate(start_date.getDate() - 1);
+    end_date.setDate(end_date.getDate() + 1);
+
+    console.log("count_transaction:start_date => ", start_date.toISOString().split("T")[0]);
+    console.log("count_transaction:end_date   => ", end_date.toISOString().split("T")[0]);
+
+    const total = await model.transaction
+      .count({
+        createdAt: {
+          $gte: start_date.toISOString().split("T")[0],
+          $lte: end_date.toISOString().split("T")[0],
+        }
+      });
+
+    return response.json({
+      status  : true,
+      message : "Success",
+      response: total,
+    });
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at update_transaction", error);
+    console.log('====================================');
+
+    return response.json({
+      status  : true,
+      message : error,
+      response: error,
+    });
+  }
+}
+
 module.exports = {
   create_transaction,
   get_order_number,
@@ -160,4 +197,5 @@ module.exports = {
   get_offline_data,
   update_transaction,
   match_voided_transaction,
+  count_transaction,
 };
