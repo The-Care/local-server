@@ -14,7 +14,7 @@ const transaction = require("./transaction");
 const user = require("./user");
 const voucher = require("./voucher");
 const report = require("./report");
-const main = require("./index");
+const main = require("../src/controllers/index");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
