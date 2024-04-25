@@ -14,11 +14,13 @@ const transaction = require("./transaction");
 const user = require("./user");
 const voucher = require("./voucher");
 const report = require("./report");
+const main = require("./index");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+router.get('/ping', main.ping);
 
 router.use("/config"            , config);
 router.use("/outlet"            , outlet);

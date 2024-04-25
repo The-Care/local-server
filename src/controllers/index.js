@@ -1,5 +1,15 @@
-const model  = require('../models/mongo')
-const crypto = require('crypto')
+const model  = require('../models/mongo');
+const crypto = require('crypto');
+
+async function ping(request, response) {
+  try {
+    return response.send("PONG!");
+  } catch (error) {
+    console.log("@error.ping", error);
+
+    return response.send(error);
+  }
+}
 
 async function get_many(request, response) {
   try {
@@ -56,4 +66,5 @@ async function create(request, response) {
 module.exports = {
   create,
   get_many,
+  ping,
 }
