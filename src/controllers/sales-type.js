@@ -24,7 +24,7 @@ async function get_sales_type(request, response) {
 async function set_sales_type(request, response) {
   try {
     await model.sales_type
-      .update({ outlet_id: request.body.outlet_id }, { lists: request.body.lists }, { upsert: true });
+      .updateMany({ outlet_id: request.body.outlet_id }, { lists: request.body.lists }, { upsert: true });
 
     return response.json({
       status : true,

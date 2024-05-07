@@ -23,7 +23,7 @@ async function get_outlet(request, response) {
 async function set_outlet(request, response) {
   try {
     await model.outlet
-      .update({ id: request.body.id }, { ...request.body }, { upsert: true });
+      .updateMany({ id: request.body.id }, { ...request.body }, { upsert: true });
 
     return response.json({
       status: true,

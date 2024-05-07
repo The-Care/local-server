@@ -24,7 +24,7 @@ async function get_config(request, response) {
 async function set_config(request, response) {
   try {
     await model.config
-      .update({ outlet_id: request.body.outlet_id }, { ...request.body }, { upsert: true });
+      .updateMany({ outlet_id: request.body.outlet_id }, { ...request.body }, { upsert: true });
 
     return response.json({
       status: true,

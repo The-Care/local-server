@@ -53,7 +53,7 @@ async function get_store(request, response) {
 async function set_store(request, response) {
   try {
     await model.store
-      .update({ id: request.body.id }, { ...request.body }, { upsert: true });
+      .updateMany({ id: request.body.id }, { ...request.body }, { upsert: true });
 
     return response.json({
       status  : true,

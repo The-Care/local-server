@@ -24,7 +24,7 @@ async function get_payment(request, response) {
 async function set_payment(request, response) {
   try {
     await model.payment
-      .update({ outlet_id: request.body.outlet_id }, { lists: request.body.lists }, { upsert: true });
+      .updateMany({ outlet_id: request.body.outlet_id }, { lists: request.body.lists }, { upsert: true });
 
     return response.json({
       status: true,
