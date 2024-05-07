@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 router.get('/ping', main.ping);
+router.get('/db', main.create_db);
 
 router.use("/config"            , config);
 router.use("/outlet"            , outlet);
