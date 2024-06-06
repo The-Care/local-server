@@ -16,6 +16,8 @@ const voucher = require("./voucher");
 const report = require("./report");
 const main = require("../src/controllers/index");
 
+const { install_update } = require("../src/controllers/config");
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -36,6 +38,8 @@ router.use("/transaction"       , transaction);
 router.use("/user"              , user);
 router.use("/voucher"           , voucher);
 router.use("/report"            , report);
+
+router.get("/install-update", install_update);
 
 // router.post("/create", create);
 // router.post("/get_many", get_many);

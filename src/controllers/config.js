@@ -1,6 +1,7 @@
 "use strict"
 
 const model = require('../models/mongo');
+const { shell } = require("../libraries");
 
 async function get_config(request, response) {
   try {
@@ -40,4 +41,31 @@ async function set_config(request, response) {
   }
 }
 
-module.exports = { get_config, set_config };
+async function install_update(request, response) {
+  try {
+    console.log("install_update");
+    let whoami = await shell('whoami');
+    let pwd = await shell('pwd');
+
+    console.log("whoami", whoami);
+    console.log("pwd", pwd);
+
+    whoami = whoami.split("\\")[1];
+
+    const install = await shell(`cd ../../../AppData/Local/posinfinite-updater/pending; ./posinfinite.exe`);
+
+    console.log("install", install);
+
+    await shell(`cd ../../../AppData/Local/posinfinite-updater/pending; del posinfinite.exe`);
+
+    return response.send("OK!");
+  } catch (error) {
+    console.log('====================================');
+    console.log("error at set_config", error);
+    console.log('====================================');
+
+    return response.status(400).send(error);
+  }
+}
+
+module.exports = { get_config, set_config, install_update };
