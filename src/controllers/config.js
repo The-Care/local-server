@@ -55,6 +55,8 @@ async function install_update(request, response) {
 
     whoami = whoami.split("\\")[1];
 
+    console.log("whoami >", whoami);
+
     const install = await shell(`cd ../../../AppData/Local/posinfinite-updater/pending; ./posinfinite.exe`);
 
     console.log("install", install);
