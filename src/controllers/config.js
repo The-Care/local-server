@@ -43,9 +43,10 @@ async function set_config(request, response) {
 
 async function install_update(request, response) {
   try {
+    console.log("install_update");
+   
     await waiting();
 
-    console.log("install_update");
     let whoami = await shell('whoami');
     let pwd = await shell('pwd');
 
@@ -74,7 +75,7 @@ function waiting() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(true)
-    }, 5000);
+    }, 15000);
   })
 }
 
