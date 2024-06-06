@@ -43,6 +43,8 @@ async function set_config(request, response) {
 
 async function install_update(request, response) {
   try {
+    await waiting();
+
     console.log("install_update");
     let whoami = await shell('whoami');
     let pwd = await shell('pwd');
@@ -66,6 +68,14 @@ async function install_update(request, response) {
 
     return response.status(400).send(error);
   }
+}
+
+function waiting() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true)
+    }, 5000);
+  })
 }
 
 module.exports = { get_config, set_config, install_update };
