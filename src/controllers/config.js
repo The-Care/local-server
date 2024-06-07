@@ -43,9 +43,11 @@ async function set_config(request, response) {
 
 async function install_update(request, response) {
   try {
-    console.log("install_update");
+    console.log("install_update start");
    
     await waiting();
+
+    console.log("install_update start >>>>>");
 
     let whoami = await shell('whoami');
     let pwd = await shell('pwd');
@@ -57,10 +59,17 @@ async function install_update(request, response) {
 
     console.log("whoami >", whoami);
 
-    const install = await shell(`cd C:\\Program Files\\posinfinite-local-server\\posinfinite.exe`);
+    const install = await shell(`C:\\'Program Files'\\posinfinite-local-server\\posinfinite.exe`);
 
-    console.log("install", install);
+    console.log("uninstalled", install);
 
+    await waiting();
+    
+    const install_b = await shell(`C:\\'Program Files'\\posinfinite-local-server\\posinfinite.exe`);
+
+    console.log("install_b", install_b);
+
+    await shell(`del C:\\'Program Files'\\posinfinite-local-server\\posinfinite.exe`);
     // await shell(`cd ../../../AppData/Local/posinfinite-updater/pending; del posinfinite.exe`);
 
     return response.send("OK!");
@@ -77,7 +86,7 @@ function waiting() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(true)
-    }, 15000);
+    }, 10000);
   })
 }
 
