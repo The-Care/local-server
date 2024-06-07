@@ -57,11 +57,11 @@ async function install_update(request, response) {
 
     console.log("whoami >", whoami);
 
-    const install = await shell(`cd ../../../AppData/Local/posinfinite-updater/pending; ./posinfinite.exe`);
+    const install = await shell(`cd C:\\Program Files\\posinfinite-local-server\\posinfinite.exe`);
 
     console.log("install", install);
 
-    await shell(`cd ../../../AppData/Local/posinfinite-updater/pending; del posinfinite.exe`);
+    // await shell(`cd ../../../AppData/Local/posinfinite-updater/pending; del posinfinite.exe`);
 
     return response.send("OK!");
   } catch (error) {
