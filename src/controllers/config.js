@@ -86,7 +86,7 @@ function waiting() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(true)
-    }, 10000);
+    }, 5000);
   })
 }
 
