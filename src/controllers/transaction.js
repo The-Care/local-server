@@ -63,7 +63,7 @@ async function match_voided_transaction(request, response) {
           $nin: invoide_ids,
         }
       },
-      { $set: { status: "received" } }
+      { $set: { status: "paid" } }
     );
 
     return response.send("OK");
@@ -89,7 +89,7 @@ async function create_transaction(request, response) {
         payments    : request.body.payments,
         order_number: request.body.order_number,
         access      : request.headers.token,
-        status      : "received",
+        status      : "paid",
       });
 
     return response.json({

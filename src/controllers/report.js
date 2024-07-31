@@ -5,7 +5,7 @@ const model = require('../models/mongo')
 async function count_transaction(request, response) {
   try {
     const finded = await model.transaction
-      .find({ identifier: request.query.identifier, status: "received" })
+      .find({ identifier: request.query.identifier, status: "paid" })
       .count();
 
     return response.json({
@@ -26,7 +26,7 @@ async function today_sales(request, response) {
   try {
     const total = await model.transaction
       .aggregate([
-        { $match: { identifier: +request.query.identifier, status: "received" } },
+        { $match: { identifier: +request.query.identifier, status: "paid" } },
         { $group: { _id: null, total: { $sum: "$grand_total" } } },
       ]);
 
@@ -52,7 +52,7 @@ async function cash_income(request, response) {
   try {
     let total = 0;
     const _cash_income = await model.transaction
-      .find({ identifier: +request.query.identifier, "payments.type": "CASH", status: "received" });
+      .find({ identifier: +request.query.identifier, "payments.type": "CASH", status: "paid" });
 
     _cash_income.forEach(item => {
       item.payments.forEach(payment => {
@@ -80,7 +80,7 @@ async function non_cash_income(request, response) {
     const _non_cash_income = await model.transaction
       .find({
         identifier      : +request.query.identifier,
-        status: "received",
+        status: "paid",
         "payments.type" : { "$in" : ["CARD/DEBIT", "OTHER"] }
       });
 
@@ -114,7 +114,7 @@ async function daily_payments(request, response) {
     const results = {};
     const _daily_payments = await model.transaction
       .aggregate([
-        { $match : { identifier: +request.query.identifier, status: "received" } },
+        { $match : { identifier: +request.query.identifier, status: "paid" } },
         { $unwind: "$payments" },
         { $unwind: "$payments.name" },
         {
