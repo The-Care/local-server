@@ -13,4 +13,5 @@ module.exports = {
   product_category  : require("./tables/product-category"),
   product_promotion : require("./tables/product-promotion"),
   transaction       : require("./tables/transaction"),
+  table             : require("./tables/table"),
 };
