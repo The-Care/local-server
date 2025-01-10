@@ -190,6 +190,22 @@ async function count_transaction(request, response) {
   }
 }
 
+async function create_incremented_invoice_id(request, response) {
+  try {
+    const total = await model.transaction.count({
+      "transaction.invoice_id": { $regex: '^P-', $options: 'i' }
+    });
+    const formatted_number = String(total + 1).padStart(6, '0');
+    const invoice_id = `P-${request.body.outlet_id.invoice_code}${request.body.sales_type.invoice_code}-${formatted_number}`;
+
+    return response.send(invoice_id);
+  } catch (error) {
+    console.log("error", error);
+
+    return response.status(400).send(error);
+  }
+}
+
 module.exports = {
   create_transaction,
   get_order_number,
@@ -198,4 +214,5 @@ module.exports = {
   update_transaction,
   match_voided_transaction,
   count_transaction,
+  create_incremented_invoice_id,
 };
