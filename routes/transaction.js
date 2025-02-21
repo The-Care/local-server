@@ -8,6 +8,7 @@ const main = require("../src/controllers/transaction");
 router.get('/'             , main.get_transaction_history);
 router.get('/offline'      , main.get_offline_data);
 router.get('/order-number' , main.get_order_number);
+router.get('/generate-order-number' , main.generate_order_number);
 
 router.post("/invoice-id"  , main.create_incremented_invoice_id);
 router.post('/count'       , main.count_transaction);

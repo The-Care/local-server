@@ -206,6 +206,22 @@ async function create_incremented_invoice_id(request, response) {
   }
 }
 
+async function generate_order_number(request, response) {
+  try {
+    const startDate = new Date('2025-02-21');
+    const total = await model.transaction.count({
+      created_at: { $gte: startDate }
+    });
+    const generate_number = String(total + 1).padStart(6, '0');
+
+    return response.send(generate_number);
+  } catch (error) {
+    console.log("error", error);
+
+    return response.status(400).send(error);
+  }
+}
+
 module.exports = {
   create_transaction,
   get_order_number,
@@ -215,4 +231,5 @@ module.exports = {
   match_voided_transaction,
   count_transaction,
   create_incremented_invoice_id,
+  generate_order_number,
 };
