@@ -210,7 +210,7 @@ async function generate_order_number(request, response) {
   try {
     const startDate = new Date('2025-02-21');
     const total = await model.transaction.count({
-      created_at: { $gte: startDate }
+      createdAt: { $gte: startDate }
     });
     const generate_number = String(total + 1).padStart(5, '0');
 
