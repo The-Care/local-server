@@ -212,7 +212,7 @@ async function generate_order_number(request, response) {
     const total = await model.transaction.count({
       created_at: { $gte: startDate }
     });
-    const generate_number = String(total + 1).padStart(6, '0');
+    const generate_number = String(total + 1).padStart(5, '0');
 
     return response.send(generate_number);
   } catch (error) {
