@@ -6,7 +6,8 @@ const axios = require("axios");
 async function get_transaction_history(request, response) {
   try {
     const finded = await model.transaction
-      .find({ identifier: request.query.identifier });
+      .find({ identifier: request.query.identifier })
+      .sort({ createdAt: -1 });
 
     return response.json({
       status  : true,
@@ -208,13 +209,22 @@ async function create_incremented_invoice_id(request, response) {
 
 async function generate_order_number(request, response) {
   try {
+    console.log("request.query.outlet_id", request.query.outlet_id);
+    
+    let outlet = await model.outlet.findOne({ id: +request.query.outlet_id });
+
+    console.log("outlet", outlet);
+    outlet = outlet.toObject();
+    
+
     const startDate = new Date('2025-02-21');
     const total = await model.transaction.count({
       createdAt: { $gte: startDate }
     });
     const generate_number = String(total + 1).padStart(5, '0');
+    const order_number = `${outlet.invoice_code}-${generate_number}`;
 
-    return response.send(generate_number);
+    return response.send(order_number);
   } catch (error) {
     console.log("error", error);
 
