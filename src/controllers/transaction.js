@@ -215,9 +215,8 @@ async function generate_order_number(request, response) {
 
     console.log("outlet", outlet);
     outlet = outlet.toObject();
-    
 
-    const startDate = new Date('2025-02-21');
+    const startDate = new Date('2025-02-25');
     const total = await model.transaction.count({
       createdAt: { $gte: startDate }
     });
