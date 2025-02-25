@@ -216,14 +216,33 @@ async function generate_order_number(request, response) {
     console.log("outlet", outlet);
     outlet = outlet.toObject();
 
+    let store = await model.store.findOne({ id: outlet.store_id });
+
+    console.log("store", store);
+    store = store.toObject();
+
+    const digit = store.type == 1 ? 3 : 6;
+
     const startDate = new Date('2025-02-25');
     const total = await model.transaction.count({
       createdAt: { $gte: startDate }
     });
-    const generate_number = String(total + 1).padStart(5, '0');
-    const order_number = `${outlet.invoice_code}-${generate_number}`;
 
-    return response.send(order_number);
+    if (store.type == 1) {
+      const orderNumber = (total % 999) + 1;
+      const formattedOrderNumber = String(orderNumber).padStart(digit, '0');
+
+      const generate_order_number = `${outlet.invoice_code}-${formattedOrderNumber}`;
+
+      return response.send(generate_order_number);
+    } else {
+      const orderNumber = (total % 999999) + 1;
+      const formattedOrderNumber = String(orderNumber).padStart(digit, '0');
+
+      const generate_order_number = `${outlet.invoice_code}-${formattedOrderNumber}`;
+
+      return response.send(generate_order_number);
+    }
   } catch (error) {
     console.log("error", error);
 
